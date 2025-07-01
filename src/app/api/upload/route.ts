@@ -61,6 +61,18 @@ export async function POST(request: NextRequest) {
         const branch = process.env.GITHUB_BRANCH || 'main';
         const commitSha = response.data.commit.sha;
 
+          if (!owner || !repo) {
+            return NextResponse.json(
+                {
+                    error: 'Missing required GitHub configuration',
+                    required_fields: ['github_token', 'github_owner', 'github_repo'],
+                    optional_fields: ['github_branch']
+                },
+                { status: 400 }
+            );
+        }
+
+
         // Generate all URL types
         const urls = {
             // Branch-based URLs
