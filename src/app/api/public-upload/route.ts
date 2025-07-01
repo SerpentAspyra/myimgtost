@@ -16,6 +16,16 @@ export async function POST(request: NextRequest) {
         const githubBranch = formData.get('github_branch') as string || 'main';
         const folder = formData.get('folder') as string || 'uploads';
 
+
+
+if (!githubOwner || !githubRepo) {
+    return NextResponse.json(
+        { error: 'GitHub repository configuration is missing.' },
+        { status: 500 }
+    );
+}
+
+
         // Validate required fields
         if (!file) {
             return NextResponse.json(
